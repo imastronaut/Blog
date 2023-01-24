@@ -1,0 +1,1 @@
+{"version":3,"sources":["Post.js"],"names":["axios","create","baseURL"],"mappings":";;;;;;;AAAA;;;;eAEeA,kBAAMC,MAAN,CAAa;AACxBC,EAAAA,OAAO,EAAE;AADe,CAAb,C","sourcesContent":["import axios from 'axios'\r\n\r\nexport default axios.create({\r\n    baseURL: 'http://127.0.0.1:8000/'\r\n})"],"file":"Post.dev.js"}
