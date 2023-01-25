@@ -76,11 +76,12 @@ def post(request,pk):
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def comment(request,pk):
-    print(request.data)
-    user = comment.user
-    post = post.objects.get(pk=pk)
+    user = request.user
+    post = Post.objects.get(pk=pk)
     comment = post.comments.create(user=user, description=request.data['comment'])
     serializer = CommentSerializer(comment, many=False)
+    serializer.data['user'] = UserSerializer(user,many=False)
+    print(serializer.data)
     return Response(serializer.data)
 
 

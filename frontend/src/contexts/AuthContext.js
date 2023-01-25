@@ -13,6 +13,8 @@ export const AuthProvider = ({children}) =>{
     let [user, setUser] = useState(()=>localStorage.getItem('authTokens')?jwt_decode(localStorage.getItem('authTokens')):null)
     let [loading, setLoading] = useState(true)
     let [posts, setPosts] = useState([])
+    let [search,setSearch] = useState('')
+    let [searchResults, setSearchResults] = useState([])
     
 
     const navigate = useNavigate()
@@ -96,8 +98,11 @@ export const AuthProvider = ({children}) =>{
         fetchPosts()
     },[])
 
-    
-
+    useEffect(()=>{
+        const filteredResults = posts.filter(post=>
+            ((post.description).toLowerCase()).includes(search.toLowerCase()))
+        setSearchResults(filteredResults)
+    },[posts,search])
   
 
 
@@ -108,7 +113,11 @@ export const AuthProvider = ({children}) =>{
         loginUser:loginUser,
         logoutUser:logoutUser,
         posts:posts,
-        setPosts:setPosts
+        setPosts:setPosts,
+        search:search,
+        setSearch:setSearch,
+        searchResults:searchResults,
+        setSearchResults:setSearchResults
         
     }
 

@@ -51,9 +51,12 @@ const PostPage = () => {
             "Authorization":"Bearer "+String(authTokens.access)
           }
         })
-        console.log(response)
         let data = await response.data
-        setComment(data)
+        console.log(data)
+        setComment('')
+        console.log("calling get comment")
+        getComments(id)
+        
       }catch(err){
         console.log(err)
       }
@@ -93,13 +96,13 @@ const PostPage = () => {
     }
     {post && 
     <>
-    <form>
+    <form onSubmit={handleComment}>
       <label htmlFor="comment">Add your Comment</label>
-      <input type="text" placeholder='Type your comment' required value={comment} onChange={(e)=>setComment(e.target.value)}/>
-      <button type="submit" onClick={()=>handleComment}>Add Comment</button>
+      <input type="text" placeholder='Type your comment' id="comment" name="comment" required value={comment} onChange={(e)=>setComment(e.target.value)}/>
+      <button type="submit">Add Comment</button>
     </form>
     </>}
-    {!post &&
+    {!post && !loading &&
             <>
             <h2>Page Not Found</h2>
             <p>Well, that's disappointing</p>

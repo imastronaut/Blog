@@ -11,6 +11,7 @@ import { AuthProvider } from './contexts/AuthContext';
 import NewPost from './components/NewPost';
 import PageNotFound from './components/PageNotFound';
 import PostPage from './components/PostPage';
+import Nav from './components/Nav';
 
 
 
@@ -20,6 +21,7 @@ const App = () => {
     <div className='App'>
       <AuthProvider>
       <Header/>
+      <Nav/>
         <Routes>
           <Route path='/' element={<PrivateRoute><Home/></PrivateRoute>}/>
           <Route path='/login' element={<Login/>}/>

@@ -4,8 +4,7 @@ import api from '../api/Post'
 import PostsList from '../components/PostsList'
 const Home = () => {
 
-  const {user} =useContext(AuthContext)
-  const {posts} = useContext(AuthContext)
+  const {user,posts} =useContext(AuthContext)
 
   
   return (
