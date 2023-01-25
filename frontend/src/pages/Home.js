@@ -1,6 +1,5 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext } from 'react'
 import AuthContext from '../contexts/AuthContext'
-import api from '../api/Post'
 import PostsList from '../components/PostsList'
 const Home = () => {
 

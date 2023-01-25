@@ -6,9 +6,10 @@ class UserSerializer(ModelSerializer):
         model = User
         fields = ['id','username','email']
 class PostSerializer(ModelSerializer):
+    likes = UserSerializer(many=True,read_only=True)
     class Meta:
         model = Post
-        fields = ['id','user','description','createdAt']
+        fields = '__all__'
     
 class CommentSerializer(ModelSerializer):
     user = UserSerializer(many=False, read_only=True)

@@ -18,6 +18,7 @@ class Post(models.Model):
     description = models.TextField(null=True,blank=True)
     #image = models.ImageField(null=True,blank=True)
     createdAt = models.DateTimeField(auto_now_add=True)
+    likes = models.ManyToManyField(User,related_name="likes")
 
     def __str__(self):
         return self.description
@@ -27,6 +28,7 @@ class Comment(models.Model):
     user = models.ForeignKey(User, on_delete=models.SET_NULL,blank=True,null=True, related_name="comments")
     description = models.TextField(null=True,blank=True)
     createdAt = models.DateTimeField(auto_now_add=True,blank=True,null=True)
+    
 
     def __str__(self):
         return self.description

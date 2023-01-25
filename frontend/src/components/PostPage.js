@@ -1,8 +1,10 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { Link, Navigate, useNavigate, useParams } from 'react-router-dom'
+import { Link, useNavigate, useParams } from 'react-router-dom'
 import AuthContext from '../contexts/AuthContext'
 import api from '../api/Post'
 import Comments from './Comments'
+
+
 
 const PostPage = () => {
     const {id} = useParams()
@@ -11,6 +13,7 @@ const PostPage = () => {
     const navigate = useNavigate()
     const post = posts.find((post)=>(post.id).toString()===id)
 
+ 
     
     let [comments, setComments]= useState([])
     let [loading,setLoading] = useState(true)
@@ -52,7 +55,6 @@ const PostPage = () => {
           }
         })
         let data = await response.data
-        console.log(data)
         setComment('')
         console.log("calling get comment")
         getComments(id)
@@ -85,7 +87,19 @@ const PostPage = () => {
     <>
     {post && 
     <>
-    <p>{post.description} {post.createdAt}</p>
+    <p>{post.description} {post.createdAt} Likes:{post.likes.length}</p>
+    <input id="heart" type="checkbox" />
+    <label for="heart">Like</label>
+
+    {post.likes &&
+    <>
+    <p>Liked by</p>
+    <ul>{post.likes.map((user,index)=>(
+      <li key={index}><Link to={`/user/${user.id}`}>{user.username}</Link></li>
+    ))}
+    </ul>
+    </>}
+
     {user.id===post.user?<button onClick={()=>handleDelete(post.id)}>Delete</button>:null}
     </>}
     {comments && 

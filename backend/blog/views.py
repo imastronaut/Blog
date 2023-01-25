@@ -81,7 +81,13 @@ def comment(request,pk):
     comment = post.comments.create(user=user, description=request.data['comment'])
     serializer = CommentSerializer(comment, many=False)
     serializer.data['user'] = UserSerializer(user,many=False)
-    print(serializer.data)
+    return Response(serializer.data)
+
+
+@api_view(['GET'])
+def getProfile(request,pk):
+    profile = User.objects.get(pk=pk)
+    serializer = UserSerializer(profile,many=False)
     return Response(serializer.data)
 
 

@@ -1,12 +1,9 @@
-import axios from 'axios';
-import React, { useContext, useState } from 'react'
+import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import api from '../api/Post'
-import AuthContext from '../contexts/AuthContext';
 const Register = () => {
     const navigate = useNavigate();
     let [message, setMessage] = useState(null)
-    const {authTokens} = useContext(AuthContext)
     const handleRegister = async(e)=>{
         
         e.preventDefault()
