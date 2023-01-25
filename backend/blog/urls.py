@@ -16,7 +16,8 @@ urlpatterns = [
     path("register/", views.register, name="register"),
     path("",views.getPosts,name="posts"),
     path("post/", views.createPost, name="createPost"),
-    path("post/<str:pk>", views.post, name="post")
+    path("post/<str:pk>", views.post, name="post"),
+    path("comment/<str:pk>",views.comment, name="comment")
 
 ]
 

@@ -7,7 +7,7 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from .models import User, Post
-from .serializers import UserSerializer,PostSerializer
+from .serializers import UserSerializer,PostSerializer,CommentSerializer
 from rest_framework import status
 
 
@@ -19,6 +19,7 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
         # Add custom claims
         token['username'] = user.username
         token['email'] = user.email
+        token['id'] = user.id
 
         return token
 
@@ -57,14 +58,30 @@ def createPost(request):
     serializer = PostSerializer(post,many=False)
     return Response(serializer.data)
 
-@api_view(['DELETE','PUT'])
+@api_view(['DELETE','PUT','GET'])
 @permission_classes([IsAuthenticated])
 def post(request,pk):
+    if request.method == 'GET':
+        post = Post.objects.get(pk=pk)
+        comments = post.comments.all()
+        serializer = CommentSerializer(comments,many=True)
+        return Response(serializer.data)
     if request.method == 'POST':
         post = Post.objects.get(pk=pk)
         post.delete()
+
         return Response("post Deleted")
     return Response("hello")
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def comment(request,pk):
+    print(request.data)
+    user = comment.user
+    post = post.objects.get(pk=pk)
+    comment = post.comments.create(user=user, description=request.data['comment'])
+    serializer = CommentSerializer(comment, many=False)
+    return Response(serializer.data)
 
 
 
