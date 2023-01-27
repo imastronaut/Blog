@@ -26,7 +26,7 @@ const App = () => {
           <Route path='/login' element={<Login/>}/>
           <Route path='/register' element={<Register/>}/>
           <Route path='/user/:id' element={<Profile/>}/>
-          <Route path="/post/" element={<NewPost/>}/>
+          <Route path="/post/" element={<PrivateRoute><NewPost/></PrivateRoute>}/>
           <Route path='/post/:id' element={<PostPage/>}/>
           <Route path="*" element={<PageNotFound/>}/>
         </Routes>

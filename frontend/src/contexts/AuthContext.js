@@ -15,6 +15,7 @@ export const AuthProvider = ({children}) =>{
     let [posts, setPosts] = useState([])
     let [search,setSearch] = useState('')
     let [searchResults, setSearchResults] = useState([])
+    let [loginmessage, setLoginmessage] = useState('')
     
 
     const navigate = useNavigate()
@@ -27,13 +28,14 @@ export const AuthProvider = ({children}) =>{
             "email":e.target.email.value,
             "password":e.target.password.value
         })
-        .catch(err=>alert(err))
-        let data = await response.data
-        if(response.status === 200){
-            setAuthTokens(data)
-            setUser(jwt_decode(data.access))
-            localStorage.setItem('authTokens',JSON.stringify(data))
+        .catch(err=>console.log(err))
+        if(response && response.status === 200){
+            setAuthTokens(response.data)
+            setUser(jwt_decode(response.data.access))
+            localStorage.setItem('authTokens',JSON.stringify(response.data))
             navigate('/')
+        }else{
+            setLoginmessage('Invalid credentails')
         }
     }
     
@@ -111,6 +113,7 @@ export const AuthProvider = ({children}) =>{
         authTokens : authTokens,
         user : user,
         loginUser:loginUser,
+        loginmessage:loginmessage,
         logoutUser:logoutUser,
         posts:posts,
         setPosts:setPosts,

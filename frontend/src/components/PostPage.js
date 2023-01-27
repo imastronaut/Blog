@@ -3,6 +3,8 @@ import { Link, useNavigate, useParams } from 'react-router-dom'
 import AuthContext from '../contexts/AuthContext'
 import api from '../api/Post'
 import Comments from './Comments'
+import AddComment from './AddComment'
+import Like from './Like'
 
 
 
@@ -12,8 +14,6 @@ const PostPage = () => {
     const {posts,setPosts,authTokens, user} = useContext(AuthContext)
     const navigate = useNavigate()
     const post = posts.find((post)=>(post.id).toString()===id)
-
- 
     
     let [comments, setComments]= useState([])
     let [loading,setLoading] = useState(true)
@@ -42,27 +42,7 @@ const PostPage = () => {
       getComments(id)
     },[])
 
-    const handleComment = async(e)=>{
-      e.preventDefault();
-      try{
-        
-        let response = await api.post(`/comment/${id}`,{
-          "comment": e.target.comment.value
-        },{
-          headers:{
-            "Content-type":"application/json",
-            "Authorization":"Bearer "+String(authTokens.access)
-          }
-        })
-        let data = await response.data
-        setComment('')
-        console.log("calling get comment")
-        getComments(id)
-        
-      }catch(err){
-        console.log(err)
-      }
-    }
+   
 
     
     
@@ -88,17 +68,15 @@ const PostPage = () => {
     {post && 
     <>
     <p>{post.description} {post.createdAt} Likes:{post.likes.length}</p>
-    <input id="heart" type="checkbox" />
-    <label for="heart">Like</label>
-
-    {post.likes &&
+    <Like post={post}/>
+    {post.likes.length? 
     <>
     <p>Liked by</p>
     <ul>{post.likes.map((user,index)=>(
       <li key={index}><Link to={`/user/${user.id}`}>{user.username}</Link></li>
     ))}
     </ul>
-    </>}
+    </>:null}
 
     {user.id===post.user?<button onClick={()=>handleDelete(post.id)}>Delete</button>:null}
     </>}
@@ -110,11 +88,8 @@ const PostPage = () => {
     }
     {post && 
     <>
-    <form onSubmit={handleComment}>
-      <label htmlFor="comment">Add your Comment</label>
-      <input type="text" placeholder='Type your comment' id="comment" name="comment" required value={comment} onChange={(e)=>setComment(e.target.value)}/>
-      <button type="submit">Add Comment</button>
-    </form>
+    <AddComment comment={comment} setComment={setComment} id={id} getComments={getComments}/>
+    
     </>}
     {!post && !loading &&
             <>

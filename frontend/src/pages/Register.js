@@ -18,11 +18,12 @@ const Register = () => {
         .catch((err)=>{
             let data = err.response.data;
             setMessage(data)
+            return
         })
         if(message){
             return
         }
-        if(response.status === 200){
+        if(response && response.status === 200){
             alert("You are registered! now login")
             navigate('/')
         }

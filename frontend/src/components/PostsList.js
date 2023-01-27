@@ -11,9 +11,7 @@ const PostsList = () => {
     
   return (
     <div className='postslist'>
-        <p>Posts</p>
-        {searchResults.map((post)=>
-        <Post key ={post.id} post={post}/>)}
+       {searchResults?searchResults.map(post=><Post key ={post.id} post={post}/>):<p>No posts yet</p>}
     </div>
   )
 }

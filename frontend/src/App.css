@@ -5,4 +5,54 @@
 
 body{
   min-height: 100vh;
+  margin: 0;
+  padding: 0;
+}
+
+.header, .footer{
+  margin: 0;
+  background-color: aquamarine;
+  width: 100%;
+  padding: 0.5rem;
+}
+
+.header ul{
+  text-align: left;
+  list-style-type: none;
+  padding-right: 10rem;
+}
+.header .form{
+  display: grid;
+  width: 100%;
+  place-content: center;
+}
+
+.form input[type="text"] {
+    border-width: 1px;
+    border-radius: 20px;
+    width: 400px;
+    border-color: #888888;
+}
+
+.header ul li{
+  padding: 1rem;
+  font-size: 1rem;
+  display: inline-block;
+}
+.header form input{
+  height: 1.75rem;
+  border-radius: 9px;
+  width:100%;
+  text-align: center;
+}
+.link{
+  text-decoration: none;
+}
+
+.footer{
+  position:relative;
+  padding: 0.75rem;
+  bottom: 0;
+  display: grid;
+  place-content: center;
 }

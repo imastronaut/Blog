@@ -18,7 +18,8 @@ urlpatterns = [
     path("post/", views.createPost, name="createPost"),
     path("post/<str:pk>", views.post, name="post"),
     path("comment/<str:pk>",views.comment, name="comment"),
-    path("user/<str:pk>", views.getProfile, name="profile")
+    path("user/<str:pk>", views.getProfile, name="profile"),
+    path("like/<str:pk>", views.like, name="like")
 
 ]
 

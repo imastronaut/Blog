@@ -8,7 +8,6 @@ const Home = () => {
   
   return (
     <>
-    <header>Hello {user.username}</header>
     {posts && <PostsList/>}
     {!posts && <p>No posts yet!! Post Something</p>}
     </>

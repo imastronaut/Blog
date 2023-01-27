@@ -66,7 +66,7 @@ def post(request,pk):
         comments = post.comments.all()
         serializer = CommentSerializer(comments,many=True)
         return Response(serializer.data)
-    if request.method == 'POST':
+    if request.method == 'DELETE':
         post = Post.objects.get(pk=pk)
         post.delete()
 
@@ -89,6 +89,22 @@ def getProfile(request,pk):
     profile = User.objects.get(pk=pk)
     serializer = UserSerializer(profile,many=False)
     return Response(serializer.data)
+
+@api_view(['POST','DELETE'])
+@permission_classes([IsAuthenticated])
+def like(request,pk):
+    if request.method=="POST":
+        post= Post.objects.get(pk=pk)
+        user=request.user
+        post.likes.add(user)
+        return Response("liked")
+    else:
+        post = Post.objects.get(pk=pk)
+        user = request.user
+        user1 = post.likes.remove(user)
+        return Response("unliked")
+
+
 
 
 
