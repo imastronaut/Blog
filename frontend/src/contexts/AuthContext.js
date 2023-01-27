@@ -40,10 +40,12 @@ export const AuthProvider = ({children}) =>{
     }
     
     const logoutUser = ()=>{
+        navigate('/login');
+        console.log("logout claeed")
         setAuthTokens(null)
         setUser(null)
         localStorage.removeItem('authTokens')
-        navigate('/login')
+        
     }
 
     const updateToken = async()=>{

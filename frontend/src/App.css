@@ -9,6 +9,8 @@ body{
   padding: 0;
 }
 
+
+
 .header, .footer{
   margin: 0;
   background-color: aquamarine;
@@ -56,3 +58,4 @@ body{
   display: grid;
   place-content: center;
 }
+
