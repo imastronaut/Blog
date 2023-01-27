@@ -1,3 +1,3 @@
 # Blog
 Hey there!
-I am trying to develop  a microblogging app
+I am trying to develop  a microblogging app using Django,React and other tech...
