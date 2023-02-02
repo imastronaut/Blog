@@ -32,7 +32,6 @@ class MyTokenObtainPairView(TokenObtainPairView):
 
 @api_view(['POST'])
 def register(request):
-    print(request.data)
     data = request.data
     try:
         user = User.objects.create_user(username=data['username'],email=data['email'],password=data['password'])
@@ -94,14 +93,16 @@ def getProfile(request,pk):
 @permission_classes([IsAuthenticated])
 def like(request,pk):
     if request.method=="POST":
+        print("posting")
         post= Post.objects.get(pk=pk)
         user=request.user
         post.likes.add(user)
-        return Response("liked")
-    else:
+        serializer = UserSerializer(user)
+        return Response(serializer.data)
+    elif request.method=="DELETE":
         post = Post.objects.get(pk=pk)
         user = request.user
-        user1 = post.likes.remove(user)
+        post.likes.remove(user)
         return Response("unliked")
 
 

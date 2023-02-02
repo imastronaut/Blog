@@ -41,7 +41,7 @@ export const AuthProvider = ({children}) =>{
     
     const logoutUser = ()=>{
         navigate('/login');
-        console.log("logout claeed")
+        console.log("logout called")
         setAuthTokens(null)
         setUser(null)
         localStorage.removeItem('authTokens')
@@ -104,7 +104,7 @@ export const AuthProvider = ({children}) =>{
 
     useEffect(()=>{
         const filteredResults = posts.filter(post=>
-            ((post.description).toLowerCase()).includes(search.toLowerCase()))
+            ((post.body).toLowerCase()).includes(search.toLowerCase()))
         setSearchResults(filteredResults)
     },[posts,search])
   

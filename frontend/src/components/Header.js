@@ -14,6 +14,7 @@ const Header = () => {
           <li><Link to='/' className='link'>Home</Link></li>
         {user? <>
           <li><Link to='/post/' className='link'>Post</Link></li>
+          <li><Link to={`/user/${user.id}`} className='link'>Profile</Link></li>
           <li><p onClick={logoutUser} className='link'>logout</p></li>
         </>
         : 

@@ -14,21 +14,22 @@ class User(AbstractUser):
         return self.email
 
 class Post(models.Model):
-    user = models.ForeignKey(User,on_delete = models.CASCADE, related_name="posts")
-    description = models.TextField(null=True,blank=True)
-    #image = models.ImageField(null=True,blank=True)
-    createdAt = models.DateTimeField(auto_now_add=True)
-    likes = models.ManyToManyField(User,related_name="likes")
+    user = models.ForeignKey(User, on_delete=models.CASCADE,related_name="posts")
+    body = models.TextField()
+    createdAt=models.DateTimeField(auto_now_add=True)
+    likes = models.ManyToManyField(User, related_name="likedposts")
+    comments = models.ManyToManyField(User, through="Comment", through_fields=('post','user'), related_name="commentedposts")
+
+    class Meta:
+        ordering = ['-createdAt']
 
     def __str__(self):
-        return self.description
+        return self.body
 
 class Comment(models.Model):
-    post = models.ForeignKey(Post,on_delete = models.CASCADE, related_name="comments")
-    user = models.ForeignKey(User, on_delete=models.SET_NULL,blank=True,null=True, related_name="comments")
-    description = models.TextField(null=True,blank=True)
-    createdAt = models.DateTimeField(auto_now_add=True,blank=True,null=True)
-    
+    post = models.ForeignKey(Post,on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    body = models.TextField()
 
     def __str__(self):
-        return self.description
+        return self.body
