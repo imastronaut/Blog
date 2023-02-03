@@ -16,7 +16,7 @@ class CommentSerializer(ModelSerializer):
 class PostSerializer(ModelSerializer):
     user = UserSerializer(many=False, read_only=True)
     likes = UserSerializer(many=True, read_only=True)
-    comments = CommentSerializer(many=True,read_only=True)
+    comments = UserSerializer(many=True,read_only=True)
 
     class Meta:
         model = Post

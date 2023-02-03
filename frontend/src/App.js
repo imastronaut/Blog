@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import Header from './components/Header'
 import { Routes, Route } from "react-router-dom";
 import './App.css'
@@ -7,16 +7,22 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import PrivateRoute from './utils/PrivateRoute';
 import Footer from './components/Footer';
-import { AuthProvider } from './contexts/AuthContext';
+import AuthContext, { AuthProvider } from './contexts/AuthContext';
 import NewPost from './components/NewPost';
 import PageNotFound from './components/PageNotFound';
 import PostPage from './components/PostPage';
 import Profile from './pages/Profile';
+import CommentPage from './components/CommentPage';
 
 
 
 
 const App = () => {
+
+
+
+
+
   return (
     <div className='App'>
       <AuthProvider>
@@ -25,9 +31,10 @@ const App = () => {
           <Route path='/' element={<PrivateRoute><Home/></PrivateRoute>}/>
           <Route path='/login' element={<Login/>}/>
           <Route path='/register' element={<Register/>}/>
-          <Route path='/user/:id' element={<Profile/>}/>
+          <Route path='/user/:id/' element={<Profile/>}/>
           <Route path="/post/" element={<PrivateRoute><NewPost/></PrivateRoute>}/>
           <Route path='/post/:id' element={<PostPage/>}/>
+          <Route path='/post/:id/comment' element={<CommentPage/>}/>
           <Route path="*" element={<PageNotFound/>}/>
         </Routes>
         <Footer/>

@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useState } from 'react'
 import FavoriteTwoToneIcon from '@mui/icons-material/FavoriteTwoTone';
 import AuthContext from '../contexts/AuthContext';
 import api from '../api/Post'
@@ -18,6 +18,7 @@ const LikeButton = ({post}) => {
           "Authorization":"Bearer " + String(authTokens.access)
         }
       })
+      .catch(err=>alert(err))
       const newLikes = post.likes.filter((like)=>(like.id).toString()!==user.id.toString())
       post.likes = newLikes
       setColor("black")
@@ -37,14 +38,14 @@ const LikeButton = ({post}) => {
   return (
     <div>
         <FavoriteTwoToneIcon id="like" type="checkbox" style={{color:`${color}`}} onClick={handleClick} />{post.likes.length}
-        {post.likes.length && <>
+        {post.likes.length? <>
         <p>Liked by</p>
         <ul>
           {post.likes.map((like)=>(
-            <li key={like.id}>{like.username}</li>
+            <li key={like.id}>{like.id.toString()===user.id.toString()?"You":like.username}</li>
           ))}
         </ul>
-        </>}
+        </>:null}
     </div>
   )
 }

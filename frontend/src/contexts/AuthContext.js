@@ -83,22 +83,23 @@ export const AuthProvider = ({children}) =>{
         return ()=>clearInterval(interval)
     },[authTokens,loading])
 
-    useEffect(()=>{
-        const fetchPosts = async()=>{
-            try{
-                let response = await api.get("");
-                setPosts(response.data)
-            }catch(err){
-                if(err.response){
-                    console.log(err.response.data)
-                console.log(err.response.status)
-                console.log(err.response.header)
-                }else{
-                    console.log(`Error: ${err.message}`)
-                }
-                
+    const fetchPosts = async()=>{
+        try{
+            let response = await api.get("");
+            setPosts(response.data)
+        }catch(err){
+            if(err.response){
+                console.log(err.response.data)
+            console.log(err.response.status)
+            console.log(err.response.header)
+            }else{
+                console.log(`Error: ${err.message}`)
             }
+            
         }
+    }
+
+    useEffect(()=>{
         fetchPosts()
     },[])
 
@@ -122,7 +123,8 @@ export const AuthProvider = ({children}) =>{
         search:search,
         setSearch:setSearch,
         searchResults:searchResults,
-        setSearchResults:setSearchResults
+        setSearchResults:setSearchResults,
+        fetchPosts:fetchPosts
         
     }
 

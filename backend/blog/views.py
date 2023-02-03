@@ -6,7 +6,7 @@ from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
-from .models import User, Post
+from .models import User, Post, Comment
 from .serializers import UserSerializer,PostSerializer,CommentSerializer
 from rest_framework import status
 
@@ -29,7 +29,7 @@ class MyTokenObtainPairView(TokenObtainPairView):
 
 
 
-
+#View to register user
 @api_view(['POST'])
 def register(request):
     data = request.data
@@ -42,45 +42,48 @@ def register(request):
     serializer= UserSerializer(user,many=False)
     return Response(serializer.data)
 
+#view to get posts
 @api_view(['GET'])
 def getPosts(request):
     posts = Post.objects.all()
     serializer = PostSerializer(posts,many=True)
     return Response(serializer.data)
 
+#Creating a new post
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
-def createPost(request):
-    user = request.user
-    description = request.data['description']
-    post = user.posts.create(description=description)
-    serializer = PostSerializer(post,many=False)
-    return Response(serializer.data)
-
-@api_view(['DELETE','PUT','GET'])
-@permission_classes([IsAuthenticated])
-def post(request,pk):
-    if request.method == 'GET':
-        post = Post.objects.get(pk=pk)
-        comments = post.comments.all()
-        serializer = CommentSerializer(comments,many=True)
+def post(request):
+    if request.method=="POST":
+        user = request.user
+        body = request.data['body']
+        post = Post.objects.create(user=user,body=body)
+        serializer = PostSerializer(post, many=False)
         return Response(serializer.data)
-    if request.method == 'DELETE':
-        post = Post.objects.get(pk=pk)
-        post.delete()
 
-        return Response("post Deleted")
-    return Response("hello")
 
-@api_view(['POST'])
+
+
+
+#view to deal with existing posts
+@api_view(['GET','POST'])
 @permission_classes([IsAuthenticated])
-def comment(request,pk):
-    user = request.user
-    post = Post.objects.get(pk=pk)
-    comment = post.comments.create(user=user, description=request.data['comment'])
-    serializer = CommentSerializer(comment, many=False)
-    serializer.data['user'] = UserSerializer(user,many=False)
-    return Response(serializer.data)
+def comments(request,pk):
+    if request.method == "GET":
+        post = Post.objects.get(pk=pk)
+        comments = Comment.objects.filter(post=post)
+        serializer = CommentSerializer(comments, many=True)
+        return Response(serializer.data)
+    elif request.method == "POST":
+        post = Post.objects.get(pk=pk)
+        user = request.user
+        body = request.data['comment']
+        comment = Comment.objects.create(post=post,user=user,body=body)
+        post.comments.add(user)
+        serializer = CommentSerializer(comment, many=False)
+        return Response(serializer.data)
+
+        
+
 
 
 @api_view(['GET'])
@@ -93,7 +96,6 @@ def getProfile(request,pk):
 @permission_classes([IsAuthenticated])
 def like(request,pk):
     if request.method=="POST":
-        print("posting")
         post= Post.objects.get(pk=pk)
         user=request.user
         post.likes.add(user)
